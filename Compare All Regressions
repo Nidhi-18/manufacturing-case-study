@@ -1,0 +1,16 @@
+##############creating table dataframe############################
+
+dict_rmse={'rmse_train_columns': [lin_reg, ridge_reg, lasso_reg, elastic_net, clf],  
+           'rmse_train_values':[lin_rmse, lin_rmse_ridge, lin_rmse_lasso, lin_rmse_elastic_net, clf_rmse],
+           'R-square_train': [lin_rq, ridge_rq, lasso_rq, elastic_net_rq, clf_rq]}
+df1_train=pd.DataFrame.from_dict(dict_rmse)
+
+
+dict_r_sq={'rmse_test_columns': [lin_reg, ridge_reg, lasso_reg, elastic_net, clf],
+           'rmse_test_values': [lin_rmse_lin_test, lin_rmse_ridge_test, lasso_rmse_lasso_test, elastic_net_rmse_elastic_net_test, clf_rmse_clf_test],
+           'R-square_test': [lin_test_rq, ridge_test_rq, lasso_test_rq, elastic_net_test_rq, clf_rq_test]}
+df1_test=pd.DataFrame.from_dict(dict_r_sq)
+
+
+final_df=df1_train.join(df1_test, lsuffix='t', rsuffix='t')
+train_test_sheet=final_df.to_csv("train_test_modify_caseL3.csv")
