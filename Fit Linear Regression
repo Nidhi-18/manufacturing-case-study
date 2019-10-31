@@ -1,0 +1,40 @@
+################LINEAR REGRESSION MODEL(ML)##################################
+from sklearn.linear_model import LinearRegression# import model
+from sklearn.model_selection import train_test_split
+#from sklearn.datasets import load_iris
+train_set, test_set=train_test_split(df_final, test_size=0.2, random_state=70)
+
+######## separating dataset for train #########
+X=train_set.drop('Concrete_strength', axis=1)
+y=train_set['Concrete_strength']
+
+########## separating dataset for test ##########
+X_test=test_set.drop('Concrete_strength',axis=1)
+y_test=test_set['Concrete_strength']
+
+'''################### PREDICTING VALUES FOR TRAINING DATASET ###########################'''
+
+''' ________________FOR LINEAR REGRESSION MODEL___________________'''
+
+lin_reg = LinearRegression()# instantiate
+lin_reg.fit(X, y)# fit the model to the training data (learn the coefficients)
+
+from sklearn.metrics import mean_squared_error
+y_pred=lin_reg.predict(X)
+lin_mse=mean_squared_error(y, y_pred)
+lin_rmse=np.sqrt(lin_mse)
+lin_rmse
+'''---------------- R-mean Square Value ---------------'''
+lin_rq=lin_reg.score(X, y)
+
+'''################### PREDICTING VALUES FOR TESTING DATASET ###################'''
+
+'''___________MODEL FOR LINEAR REGRESSION______________'''
+
+y_lin_test = lin_reg.predict(X_test)
+lin_mse_lin_test = mean_squared_error(y_test, y_lin_test)
+lin_rmse_lin_test = np.sqrt(lin_mse_lin_test)
+lin_rmse_lin_test
+'''-------------------R- Square Value -----------------'''
+lin_test_rq=lin_reg.score(X_test, y_test)
+
