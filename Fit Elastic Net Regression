@@ -1,0 +1,25 @@
+# TRAINING DATA
+
+'''__________________FOR ELASTO NET MODEL________________________'''
+
+from sklearn.linear_model import ElasticNet
+elastic_net = ElasticNet(alpha=0.1, l1_ratio=0.5)
+elastic_net.fit(X, y)
+
+y_elastic_net = elastic_net.predict(X)
+lin_mse_elastic_net = mean_squared_error(y, y_elastic_net)
+lin_rmse_elastic_net = np.sqrt(lin_mse_elastic_net)
+lin_rmse_elastic_net
+'''-------------------R- Squared Value ---------------------'''
+elastic_net_rq=elastic_net.score(X, y)
+
+# TESTING DATA
+
+'''_________________FOR SGD REGRESSION__________________'''
+y_clf_test=clf.predict(X_test)
+clf_mse_test=mean_squared_error(y_test, y_clf_test)
+clf_rmse_clf_test=np.sqrt(clf_mse_test)
+clf_rmse_clf_test
+
+'''-----------------R-square-------------------'''
+clf_rq_test=clf.score(X_test, y_test)
