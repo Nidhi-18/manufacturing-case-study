@@ -1,0 +1,25 @@
+# TRAINING DATA
+
+'''______________________FOR RIDGE REGRESSION MODEL__________________'''
+
+from sklearn.linear_model import Ridge
+ridge_reg = Ridge(alpha=1, solver="cholesky")
+ridge_reg.fit(X,y)
+
+y_ridge = ridge_reg.predict(X)
+lin_mse_ridge = mean_squared_error(y, y_ridge)
+lin_rmse_ridge = np.sqrt(lin_mse_ridge)
+lin_rmse_ridge
+''' ----------------- R- mean Square Value -----------------------'''
+ridge_rq=ridge_reg.score(X,y)
+
+
+#TESTING DATA
+
+'''___________________MODEL FOR RIDGE REGRESSION __________________'''
+y_ridge_test = ridge_reg.predict(X_test)
+lin_mse_ridge_test = mean_squared_error(y_test, y_ridge_test)
+lin_rmse_ridge_test = np.sqrt(lin_mse_ridge_test)
+lin_rmse_ridge_test
+'''------------R-Squared Value --------------'''
+ridge_test_rq=ridge_reg.score(X_test, y_test)
