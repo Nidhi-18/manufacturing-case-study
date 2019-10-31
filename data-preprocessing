@@ -1,0 +1,65 @@
+###################################IMPORTING PACKAGES###################
+import pandas as pd
+import numpy as np
+#########################################################################
+df=pd.read_csv("case_study_preprocessing_L1.csv")#READING CSV USING PANDAS
+
+#CHANGING COLUMNS NAME
+df.columns=['long','lat','house-median-age','total-rooms','total-bedrooms','population','household','income-median','house-median-value','OC-prox']
+
+df.dtypes#KNOWING THEIR DATA TYPES
+df.head()#MAKING DISPLAY OF FIRST 5 ROWS OF DATAFRAME
+df2=df.describe()#HAVING STATISTICAL DATA
+df.describe().to_csv("case_study_preprocessing_L2.csv")#SAVING STATISTICAL DATA TO CSV FILE
+
+df.isna().sum()#shows total nan values for every column
+
+##########################FILLING NAN VALUES TO MEDIAN VALUES#########################
+med=df['total_bedrooms'].median()
+df['total_bedrooms'].fillna(med)
+df['total_bedrooms'].fillna(med,inplace=True)
+df.isnull().sum(axis = 0)
+df.isna().sum()#or
+df['total_bedrooms'].fillna(med)
+
+########droping 1 outlier in median income column############
+df.dropna(subset=['median_income'], inplace=True)
+############################################################
+
+##################DEFINING A FUNCTION FOR OUTPUT AS ARRAY OF OUTLIERS#####################
+def outliers_iqr(df):
+    quartile_1, quartile_3 = np.percentile(df, [25, 75])
+    iqr = quartile_3 - quartile_1
+    lower_bound = quartile_1 - (iqr * 1.5)
+    upper_bound = quartile_3 + (iqr * 1.5)
+    return np.where((df > upper_bound) | (df < lower_bound))
+
+outliers_iqr(df['median_house_value'])
+outliers_iqr(df['housing_median_age'])
+outliers_iqr(df['total_rooms'])
+outliers_iqr(df['total_bedrooms'])
+outliers_iqr(df['population'])
+outliers_iqr(df['households'])
+outliers_iqr(df['median_income'])
+outliers_iqr(df['latitude'])
+outliers_iqr(df['longitude'])
+
+###########################################################################################
+
+###################Removing outliers and resetting index########
+q1=df.quantile(0.25)
+q3=df.quantile(0.75)
+iqr=q3-q1
+df_0=df[~((df<(q1-1.5*iqr))|(df>(q3+1.5*iqr))).any(axis=1)]
+df_final=df_0.reset_index(drop=True)
+##################################################################
+
+
+
+
+
+
+
+
+
+
