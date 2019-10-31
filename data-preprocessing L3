@@ -1,0 +1,66 @@
+###################################IMPORTING PACKAGES###################
+import pandas as pd
+import numpy as np
+#########################################################################
+
+df=pd.read_csv("case_3_LR_manufacturing.csv")
+df.columns=['Cement','Blast Furnace slag','Fly Ash','Water','Superplasticizers','CoarseAgg','FineAgg','Age(day)','Concrete_strength']
+
+df.dtypes#KNOWING THEIR DATA TYPES
+df.head()#MAKING DISPLAY OF FIRST 5 ROWS OF DATAFRAME
+df2=df.describe()#HAVING STATISTICAL DATA
+df.describe().to_csv("case_study_preprocessing_L3.csv")#SAVING STATISTICAL DATA TO CSV FILE
+
+#checking number of zeros
+(df['Cement'] == 0).astype(int).sum(axis=0)# 0 zeros
+(df['Blast Furnace slag'] == 0).astype(int).sum(axis=0)# 471 zeros
+(df['Fly Ash'] == 0).astype(int).sum(axis=0)# 566 zeros
+(df['Water'] == 0).astype(int).sum(axis=0)# 0 zeros
+(df['Superplasticizers'] == 0).astype(int).sum(axis=0)# 379 zeros
+(df['CoarseAgg'] == 0).astype(int).sum(axis=0)# 0 zeros
+(df['FineAgg'] == 0).astype(int).sum(axis=0)# 0 zeros
+(df['Age(day)'] == 0).astype(int).sum(axis=0)# 0 zeros
+(df['Concrete_strength'] == 0).astype(int).sum(axis=0)# 0 zeros
+#describe any one column
+df['Superplasticizers'].describe()
+df['Fly Ash'].describe()
+df['Blast Furnace slag'].describe()
+
+df.isna().sum()#shows total nan values for every column
+
+# list of outliers 
+def outliers_iqr(df):
+    quartile_1, quartile_3 = np.percentile(df, [25, 75])
+    iqr = quartile_3 - quartile_1
+    lower_bound = quartile_1 - (iqr * 1.5)
+    upper_bound = quartile_3 + (iqr * 1.5)
+    return np.where((df > upper_bound) | (df < lower_bound))
+
+
+outliers_iqr(df['Cement'])
+outliers_iqr(df['Blast Furnace slag'])
+outliers_iqr(df['Fly Ash'])
+outliers_iqr(df['Water'])
+outliers_iqr(df['Superplasticizers'])
+outliers_iqr(df['CoarseAgg'])
+outliers_iqr(df['FineAgg'])
+outliers_iqr(df['Age(day)'])
+outliers_iqr(df['Concrete_strength'])
+
+###################Removing outliers and resetting index########
+q1=df.quantile(0.25)
+q3=df.quantile(0.75)
+iqr=q3-q1
+df_0=df[~((df<(q1-1.5*iqr))|(df>(q3+1.5*iqr))).any(axis=1)]
+df_final=df_0.reset_index(drop=True)
+##################################################################
+
+
+
+
+
+
+
+
+
+
