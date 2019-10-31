@@ -1,0 +1,27 @@
+
+
+#TRAINING DATA
+
+'''________________FOR LASSO REGRESSION MODEL______________________'''
+
+from sklearn.linear_model import Lasso
+lasso_reg = Lasso(alpha=0.1)
+lasso_reg.fit(X, y)
+
+y_lasso = lasso_reg.predict(X)
+lin_mse_lasso = mean_squared_error(y, y_lasso)
+lin_rmse_lasso = np.sqrt(lin_mse_lasso)
+lin_rmse_lasso
+'''------------------R- Square Value --------------------------'''
+lasso_rq=lasso_reg.score(X, y)
+
+#TESTING DATA
+
+'''_______________MODEL FOR LASSO REGRESSION _________________'''
+
+y_lasso_test = lasso_reg.predict(X_test)
+lasso_mse_lasso_test = mean_squared_error(y_test, y_lasso_test)
+lasso_rmse_lasso_test = np.sqrt(lasso_mse_lasso_test)
+lasso_rmse_lasso_test
+'''--------------------R-Square Value ------------------------'''
+lasso_test_rq=lasso_reg.score(X_test, y_test)
